@@ -13,10 +13,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController // No stupid templates - just send response body with the data
 class EmployeeController {
   private final EmployeeRepository repository;
+  private final EmployeeModelAssembler assembler;
 
   //  Injection 💉
-  public EmployeeController(EmployeeRepository repository) {
+  public EmployeeController(EmployeeRepository repository, EmployeeModelAssembler assembler) {
     this.repository = repository;
+    this.assembler = assembler;
   }
 
   // The Aggregate Root is the parent Entity to all other Entities and Value Objects within the
@@ -30,15 +32,7 @@ class EmployeeController {
     List<EntityModel<Employee>> employees =
 
         //            Transform the employees into Entities (include links)
-        repository.findAll().stream()
-            .map(
-                employee ->
-                    EntityModel.of(
-                        employee,
-                        linkTo(methodOn(EmployeeController.class).show(employee.getId()))
-                            .withSelfRel(),
-                        linkTo(methodOn(EmployeeController.class).index()).withRel("employees")))
-            .collect(Collectors.toList());
+        repository.findAll().stream().map(assembler::toModel).collect(Collectors.toList());
 
     return CollectionModel.of(
         employees, linkTo(methodOn(EmployeeController.class).index()).withSelfRel());
@@ -59,12 +53,7 @@ class EmployeeController {
     Employee foundEmployee =
         repository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
 
-    return EntityModel.of(
-        foundEmployee,
-
-        //        Create a 'self link' to the individual employee
-        linkTo(methodOn(EmployeeController.class).show(id)).withSelfRel(),
-        linkTo(methodOn(EmployeeController.class).index()).withRel("employees"));
+    return assembler.toModel(foundEmployee);
   }
 
   @PutMapping("/employees/{id}")
