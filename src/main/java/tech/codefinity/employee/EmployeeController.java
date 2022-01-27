@@ -34,7 +34,7 @@ class EmployeeController {
   }
 
   @PutMapping("/employees/{id}")
-  Employee update(@RequestBody Employee employee2Update, @PathVariable Long id) {
+  Employee replace(@RequestBody Employee employee2Update, @PathVariable Long id) {
 
     return repository
         .findById(id)
