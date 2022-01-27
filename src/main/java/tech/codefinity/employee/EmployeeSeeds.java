@@ -16,8 +16,9 @@ class EmployeeSeeds {
   CommandLineRunner init(EmployeeRepository repository) {
     return args -> {
       logger.info(
-          "Seeding Database... " + repository.save(new Employee("Bilbo Baggins", "burglar")));
-      logger.info("Seeding Database..." + repository.save(new Employee("Frodo Baggins", "thief")));
+          "Seeding Database... " + repository.save(new Employee("Bilbo", "Baggins", "burglar")));
+      logger.info(
+          "Seeding Database..." + repository.save(new Employee("Frodo", "Baggins", "thief")));
     };
   }
 }
