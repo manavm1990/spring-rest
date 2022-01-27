@@ -4,14 +4,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RestController // No stupid templates - just send response body with the data
 class EmployeeController {
   private final EmployeeRepository repository;
 
+  //  Injection 💉
   public EmployeeController(EmployeeRepository repository) {
     this.repository = repository;
   }
 
+  //  TODO: Find out what this is 👇🏾 😖
   //    Aggregate root
   //    tag::get-aggregate-root[]
   @GetMapping("/employees")
