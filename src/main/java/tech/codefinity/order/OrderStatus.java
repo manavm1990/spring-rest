@@ -1,6 +1,6 @@
 package tech.codefinity.order;
 
-enum OrderStatus {
+public enum OrderStatus {
   IN_PROGRESS, //
   COMPLETED, //
   CANCELLED

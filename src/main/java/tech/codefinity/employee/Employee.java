@@ -16,7 +16,7 @@ public class Employee {
 
   Employee() {}
 
-  Employee(String fname, String lname, String role) {
+  public Employee(String fname, String lname, String role) {
 
     this.fname = fname;
     this.lname = lname;

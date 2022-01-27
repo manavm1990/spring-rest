@@ -9,7 +9,7 @@ import java.util.Objects;
 @Entity
 // ⚠️ Need to change table name b/c can't use "ORDER"
 @Table(name = "CUSTOMER_ORDER")
-class Order {
+public class Order {
 
   private @Id @GeneratedValue Long id;
 
