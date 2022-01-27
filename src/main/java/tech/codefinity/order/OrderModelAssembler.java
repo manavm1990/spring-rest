@@ -22,11 +22,14 @@ class OrderModelAssembler implements RepresentationModelAssembler<Order, EntityM
             linkTo(methodOn(OrderController.class).show(order.getId())).withSelfRel(),
             linkTo(methodOn(OrderController.class).index()).withRel("orders"));
 
-    //  Conditional links based on order status
-    entity.add(linkTo(methodOn(OrderController.class).cancel(order.getId())).withRel("cancel"));
+    if (order.getStatus() == OrderStatus.IN_PROGRESS) {
 
-    entity.add(linkTo(methodOn(OrderController.class).complete(order.getId())).withRel("complete"));
+      //  Conditional links based on order status
+      entity.add(linkTo(methodOn(OrderController.class).cancel(order.getId())).withRel("cancel"));
 
+      entity.add(
+          linkTo(methodOn(OrderController.class).complete(order.getId())).withRel("complete"));
+    }
     return entity;
   }
 }
